@@ -1,0 +1,18 @@
+%lang starknet
+
+@contract
+mod Voting {
+    struct Vote {
+        votes: map<u256, u256>,
+    }
+
+    #[external]
+    fn vote(ref self: Vote, candidate_id: u256) {
+        self.votes.insert(candidate_id, self.votes.get_or(candidate_id, 0) + 1);
+    }
+
+    #[view]
+    fn get_votes(self: Vote, candidate_id: u256) -> u256 {
+        return self.votes.get_or(candidate_id, 0);
+    }
+}
